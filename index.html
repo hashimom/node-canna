@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Canna テスト</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+
+    var s = io.connect('http://localhost:3000');
+
+    s.on("connect", function() {});
+    s.on("disconnect", function(client) {});
+    s.on("s2c_message", function(convdata) {
+    var jsobj = JSON.parse(convdata);
+    $("#conv_kana").text(jsobj.kana);
+    $("#conv_kanj").text(jsobj.kanj);
+    });
+
+    function sendromaji() {
+    var msg = $("#message").val();
+    s.emit("c2s_message", {value:msg});
+    }
+
+  </script>
+  <style>
+    *{
+      font-size:30px;
+      margin:0;
+      padding:0;
+    }
+  </style>
+</head>
+<body>
+    <form action="" method="post" onsubmit="return false;">
+      <input type="text" class="text" style="width:95%; padding:10px" id="message" onkeyup="sendromaji();"/>
+      <input type="submit" class="button" style="padding:10px" onclick="sendromaji();" value="変換" />
+    </form>
+    <div id="conv_kana"></div>
+    <div id="conv_kanj"></div>
+</div>
+</body>
+</html>
