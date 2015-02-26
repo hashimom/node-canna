@@ -64,7 +64,8 @@ int CannaSession::convert(char *inromaji)
         RkGoTo(0, j);
         RkGetKanji(0, (unsigned char*)workbuf, WORKBUFSIZE);
         strncat(this->kanj, workbuf, (CANNA_BUFSIZE - (nstrlen + 1)));
-        nstrlen = strlen(this->kanj);
+        strncat(this->kanj, " ", 1);
+        nstrlen = strlen(this->kanj + 1);
       }
       RkEndBun(0, 0);
     }
